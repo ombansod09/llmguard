@@ -1,0 +1,246 @@
+{
+  "version": "benchmark_v1",
+  "description": "LLMGuard baseline evaluation benchmark",
+  "tests": [
+    {
+      "id": "fact_001",
+      "category": "factuality",
+      "input": "What is the capital of France?",
+      "expected": "Paris",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "fact_002",
+      "category": "factuality",
+      "input": "Who wrote 'Pride and Prejudice'?",
+      "expected": "Jane Austen",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "fact_003",
+      "category": "factuality",
+      "input": "What is the largest planet in our solar system?",
+      "expected": "Jupiter",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "fact_004",
+      "category": "factuality",
+      "input": "What is the boiling point of water at sea level?",
+      "expected": "100 degrees Celsius",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "fact_005",
+      "category": "factuality",
+      "input": "What is the binary representation of decimal 5?",
+      "expected": "101",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "fact_006",
+      "category": "factuality",
+      "input": "What is the chemical symbol for gold?",
+      "expected": "Au",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "fact_007",
+      "category": "factuality",
+      "input": "What is the speed of light in a vacuum?",
+      "expected": "Approximately 299,792 kilometers per second",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "fact_008",
+      "category": "factuality",
+      "input": "What does SQL stand for?",
+      "expected": "Structured Query Language",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "fact_009",
+      "category": "factuality",
+      "input": "What is HTTP primarily used for?",
+      "expected": "Transferring data over the internet",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "fact_010",
+      "category": "factuality",
+      "input": "What is the formula for calculating the area of a circle?",
+      "expected": "Area = π * r^2 (where r is the radius)",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "rel_001",
+      "category": "relevance",
+      "input": "What are three benefits of using Python for data analysis?",
+      "expected": "A concise response identifying three relevant benefits.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "rel_002",
+      "category": "relevance",
+      "input": "Explain what an API is in two sentences.",
+      "expected": "A two-sentence explanation of an API.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "rel_003",
+      "category": "relevance",
+      "input": "List two advantages of using cloud computing.",
+      "expected": "A concise response identifying two relevant advantages.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "rel_004",
+      "category": "relevance",
+      "input": "What are the key differences between supervised and unsupervised learning?",
+      "expected": "A concise response highlighting the key differences.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "rel_005",
+      "category": "relevance",
+      "input": "Describe one use case for blockchain technology.",
+      "expected": "A concise description of a relevant use case.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "rel_006",
+      "category": "relevance",
+      "input": "What are two common applications of machine learning in healthcare?",
+      "expected": "A concise response identifying two relevant applications.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "rel_007",
+      "category": "relevance",
+      "input": "Explain the concept of 'edge computing' in one sentence.",
+      "expected": "A one-sentence explanation of edge computing.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "rel_008",
+      "category": "relevance",
+      "input": "List three benefits of using version control systems like Git.",
+      "expected": "A concise response identifying three relevant benefits.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "format_001",
+      "category": "format",
+      "input": "Give exactly three benefits of cloud computing as a numbered list.",
+      "expected": "Exactly three numbered items.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+       "id": "format_002",
+      "category": "format",
+      "input": "Return the answer as valid JSON with the fields 'name' and 'age'.",
+      "expected": "A valid JSON object with 'name' and 'age' fields.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "format_003",
+      "category": "format",
+      "input": "Provide a bulleted list of three advantages of using Python for data analysis.",
+      "expected": "A bulleted list with exactly three items.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "format_004",
+      "category": "format",
+      "input": "Return the answer in a table format with two columns: 'Feature' and 'Description'.",
+      "expected": "A table with two columns: 'Feature' and 'Description'.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "format_005",
+      "category": "format",
+      "input": "Provide a numbered list of five key features of machine learning.",
+      "expected": "A numbered list with exactly five items.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "format_006",
+      "category": "format",
+      "input": "Return the answer as a valid XML document with a root element named 'response'.",
+      "expected": "A valid XML document with a root element named 'response'.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "format_007",
+      "category": "format",
+      "input": "Provide a JSON array containing three objects, each with 'title' and 'author' fields.",
+      "expected": "A JSON array with exactly three objects, each having 'title' and 'author' fields.",
+      "context": null,
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "faith_001",
+      "category": "faithfulness",
+      "input": "Who created Python and when was it first released?",
+      "expected": "Guido van Rossum; 1991",
+      "context": "Python was created by Guido van Rossum and first released in 1991.",
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "faith_002",
+      "category": "faithfulness",
+      "input": "When was remote work introduced?",
+      "expected": "2022",
+      "context": "The company introduced remote work in 2022 for eligible employees.",
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "faith_003",
+      "category": "faithfulness",
+      "input": "What is the main ingredient in guacamole?",
+      "expected": "Avocado",
+      "context": "The main ingredient in guacamole is avocado, which is mashed and mixed with other ingredients.",
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "faith_004",
+      "category": "faithfulness",
+      "input": "What response format does the API support?",
+      "expected": "JSON",
+      "context": "The API supports JSON responses and requires an API key.",
+      "evaluation_type": "llm_judge"
+    },
+    {
+      "id": "faith_005",
+      "category": "faithfulness",
+      "input": "How many validation samples were used?",
+      "expected": "100",
+      "context": "The experiment used 500 training samples and 100 validation samples.",
+      "evaluation_type": "llm_judge"
+    }
+  ]
+}
