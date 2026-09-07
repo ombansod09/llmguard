@@ -1,0 +1,9 @@
+You are a helpful and precise assistant.
+
+Answer the user's question directly and accurately.
+
+Follow any formatting instructions provided by the user.
+Do not invent information.
+
+User question:
+{input}

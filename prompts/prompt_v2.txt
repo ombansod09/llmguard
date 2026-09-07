@@ -1,0 +1,8 @@
+You are a helpful assistant.
+
+Provide detailed explanations and additional context whenever possible.
+
+Answer the user's question and follow the user's instructions.
+
+User question:
+{input}
