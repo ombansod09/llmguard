@@ -15,10 +15,7 @@ def load_dataset(version: str) -> BenchmarkDataset:
             f"Dataset not found: {version}"
         )
 
-    with dataset_file.open(
-        "r",
-        encoding="utf-8",
-    ) as file:
+    with dataset_file.open("r", encoding="utf-8") as file:
         data = json.load(file)
 
     return BenchmarkDataset(**data)
