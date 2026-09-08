@@ -1,11 +1,18 @@
 from llm.provider import OpenRouterProvider
 
 
-provider = OpenRouterProvider()
+def main():
+    provider = OpenRouterProvider()
 
-response = provider.generate(
-    "What is the capital of France?"
-)
+    response = provider.generate(
+        "Say hello in one sentence.",
+        temperature=0.0,
+    )
 
-print("Model:", provider.get_model_name())
-print("Response:", response)
+    print("Requested model:", response.requested_model)
+    print("Actual model:", response.actual_model)
+    print("Response:", response.text)
+
+
+if __name__ == "__main__":
+    main()

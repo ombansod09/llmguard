@@ -34,7 +34,21 @@ class OpenRouterProvider(LLMProvider):
 
         text = response.choices[0].message.content
 
-        return LLMResponse(text=text, model=self.model)
+        if not text:
+            raise ValueError("LLM returned an empty response.")
+
+        actual_model = response.model
+
+        if not actual_model:
+            raise ValueError(
+                "OpenRouter did not return the actual model."
+            )
+
+        return LLMResponse(
+            text=text,
+            requested_model=self.model,
+            actual_model=actual_model,
+        )
 
     def get_model_name(self) -> str:
         return self.model
