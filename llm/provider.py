@@ -13,6 +13,7 @@ class OpenRouterProvider(LLMProvider):
         self.client = OpenAI(
             api_key=get_api_key(),
             base_url="https://openrouter.ai/api/v1",
+            timeout=30.0,
         )
 
     def generate(
