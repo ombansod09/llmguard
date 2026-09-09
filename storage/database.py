@@ -1,5 +1,6 @@
 import sqlite3
 from pathlib import Path
+from uuid import uuid4
 
 
 DB_DIR = Path("storage")
@@ -10,7 +11,6 @@ def get_connection():
     DB_DIR.mkdir(exist_ok=True)
 
     connection = sqlite3.connect(DB_PATH)
-
     connection.row_factory = sqlite3.Row
 
     return connection
@@ -23,6 +23,7 @@ def initialize_database():
         """
         CREATE TABLE IF NOT EXISTS experiments (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            run_id TEXT NOT NULL,
             dataset_version TEXT NOT NULL,
             prompt_version TEXT NOT NULL,
             requested_model TEXT NOT NULL,
@@ -44,7 +45,13 @@ def initialize_database():
     connection.commit()
     connection.close()
 
+
+def create_run_id() -> str:
+    return str(uuid4())
+
+
 def save_evaluation(
+    run_id: str,
     dataset_version: str,
     prompt_version: str,
     requested_model: str,
@@ -64,6 +71,7 @@ def save_evaluation(
     connection.execute(
         """
         INSERT INTO experiments (
+            run_id,
             dataset_version,
             prompt_version,
             requested_model,
@@ -78,9 +86,10 @@ def save_evaluation(
             reason,
             judge_model
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
+            run_id,
             dataset_version,
             prompt_version,
             requested_model,
@@ -100,12 +109,25 @@ def save_evaluation(
     connection.commit()
     connection.close()
 
+
 def get_experiment_results(
+    run_id: str | None = None,
     prompt_version: str | None = None,
 ):
     connection = get_connection()
 
-    if prompt_version:
+    if run_id:
+        cursor = connection.execute(
+            """
+            SELECT *
+            FROM experiments
+            WHERE run_id = ?
+            ORDER BY id
+            """,
+            (run_id,),
+        )
+
+    elif prompt_version:
         cursor = connection.execute(
             """
             SELECT *
@@ -115,6 +137,7 @@ def get_experiment_results(
             """,
             (prompt_version,),
         )
+
     else:
         cursor = connection.execute(
             """
@@ -123,6 +146,31 @@ def get_experiment_results(
             ORDER BY id
             """
         )
+
+    rows = cursor.fetchall()
+
+    connection.close()
+
+    return rows
+
+
+def get_run_ids():
+    connection = get_connection()
+
+    cursor = connection.execute(
+        """
+        SELECT
+            run_id,
+            dataset_version,
+            prompt_version,
+            requested_model,
+            MIN(created_at) AS created_at,
+            COUNT(*) AS test_count
+        FROM experiments
+        GROUP BY run_id
+        ORDER BY created_at DESC
+        """
+    )
 
     rows = cursor.fetchall()
 

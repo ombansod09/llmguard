@@ -58,6 +58,7 @@ def test_save_and_retrieve(tmp_path, monkeypatch):
     database.initialize_database()
 
     database.save_evaluation(
+        run_id="run_test_001",
         dataset_version="benchmark_v1",
         prompt_version="v1",
         requested_model="openrouter/free",
@@ -73,8 +74,11 @@ def test_save_and_retrieve(tmp_path, monkeypatch):
         judge_model="test-judge",
     )
 
-    rows = database.get_experiment_results("v1")
+    rows = database.get_experiment_results(
+        run_id="run_test_001"
+    )
 
     assert len(rows) == 1
+    assert rows[0]["run_id"] == "run_test_001"
     assert rows[0]["test_id"] == "fact_001"
     assert rows[0]["overall_score"] == 1.0
