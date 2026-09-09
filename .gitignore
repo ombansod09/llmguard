@@ -220,3 +220,4 @@ __marimo__/
 
 storage/*.db
 *.pyc
+tests/test_temp.py
