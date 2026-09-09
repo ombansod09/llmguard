@@ -1,4 +1,5 @@
 import streamlit as st
+from types import SimpleNamespace
 
 from datasets.loader import load_dataset
 from evaluation.experiment import run_experiment
@@ -433,237 +434,237 @@ with run_tab:
                     }
                 )
 
-            if before_models != after_models:
-
-                st.warning(
-                    "⚠️ The underlying model selection differs "
-                    "between these runs. Regression results should "
-                    "not be attributed to the prompt alone."
-                )
-
-            else:
-
-                st.success(
-                    "Underlying generation model selection "
-                    "is consistent between these runs."
-                )
-
-                if not before_rows or not after_rows:
+                if before_models != after_models:
 
                     st.warning(
-                        "One or both selected runs contain no results."
+                        "⚠️ The underlying model selection differs "
+                        "between these runs. Regression results should "
+                        "not be attributed to the prompt alone."
                     )
 
                 else:
 
-                    before = SimpleNamespace(
-                        factuality=sum(
-                            row["factuality"]
-                            for row in before_rows
-                        ) / len(before_rows),
-
-                        relevance=sum(
-                            row["relevance"]
-                            for row in before_rows
-                        ) / len(before_rows),
-
-                        format_compliance=sum(
-                            row["format_compliance"]
-                            for row in before_rows
-                        ) / len(before_rows),
-
-                        faithfulness=sum(
-                            row["faithfulness"]
-                            for row in before_rows
-                        ) / len(before_rows),
-
-                        overall_score=sum(
-                            row["overall_score"]
-                            for row in before_rows
-                        ) / len(before_rows),
+                    st.success(
+                        "Underlying generation model selection "
+                        "is consistent between these runs."
                     )
 
-                    after = SimpleNamespace(
-                        factuality=sum(
-                            row["factuality"]
-                            for row in after_rows
-                        ) / len(after_rows),
-
-                        relevance=sum(
-                            row["relevance"]
-                            for row in after_rows
-                        ) / len(after_rows),
-
-                        format_compliance=sum(
-                            row["format_compliance"]
-                            for row in after_rows
-                        ) / len(after_rows),
-
-                        faithfulness=sum(
-                            row["faithfulness"]
-                            for row in after_rows
-                        ) / len(after_rows),
-
-                        overall_score=sum(
-                            row["overall_score"]
-                            for row in after_rows
-                        ) / len(after_rows),
-                    )
-
-                    regression = detect_regression(
-                        before,
-                        after,
-                    )
-
-                    st.divider()
-
-                    if regression.regression_detected:
-
-                        st.error(
-                            "⚠️ Regression detected"
-                        )
-
-                    else:
-
-                        st.success(
-                            "✅ No regression detected"
-                        )
-
-                    st.subheader("Score Comparison")
-
-                    col1, col2, col3 = st.columns(3)
-
-                    with col1:
-
-                        st.metric(
-                            "Baseline Overall",
-                            f"{regression.overall_before * 100:.2f}%",
-                        )
-
-                    with col2:
-
-                        st.metric(
-                            "New Overall",
-                            f"{regression.overall_after * 100:.2f}%",
-                        )
-
-                    with col3:
-
-                        st.metric(
-                            "Change",
-                            f"{regression.overall_change * 100:+.2f} pp",
-                        )
-
-                    st.divider()
-
-                    st.subheader("Metric Comparison")
-
-                    metric_table = []
-
-                    for change in regression.metric_changes:
-
-                        metric_table.append(
-                            {
-                                "Metric": change.metric,
-                                "Baseline": (
-                                    f"{change.before * 100:.1f}%"
-                                ),
-                                "New": (
-                                    f"{change.after * 100:.1f}%"
-                                ),
-                                "Change": (
-                                    f"{change.change * 100:+.1f} pp"
-                                ),
-                                "Regression": (
-                                    "Yes"
-                                    if change.change <= -0.10
-                                    else "No"
-                                ),
-                            }
-                        )
-
-                    st.dataframe(
-                        metric_table,
-                        use_container_width=True,
-                        hide_index=True,
-                    )
-
-                    st.divider()
-
-                    st.subheader(
-                        "Per-Test Regression Analysis"
-                    )
-
-                    before_analysis = [
-                        SimpleNamespace(
-                            test_id=row["test_id"],
-                            overall_score=row["overall_score"],
-                            reason=row["reason"],
-                        )
-                        for row in before_rows
-                    ]
-
-                    after_analysis = [
-                        SimpleNamespace(
-                            test_id=row["test_id"],
-                            overall_score=row["overall_score"],
-                            reason=row["reason"],
-                        )
-                        for row in after_rows
-                    ]
-
-                    test_regressions = find_regressions(
-                        before_analysis,
-                        after_analysis,
-                    )
-
-                    if not test_regressions:
-
-                        st.success(
-                            "No individual test regressed "
-                            "by 5 percentage points or more."
-                        )
-
-                    else:
+                    if not before_rows or not after_rows:
 
                         st.warning(
-                            f"{len(test_regressions)} test(s) "
-                            "showed significant regression."
+                            "One or both selected runs contain no results."
                         )
 
-                        for item in test_regressions:
+                    else:
 
-                            change_pp = (
-                                item.overall_change * 100
+                        before = SimpleNamespace(
+                            factuality=sum(
+                                row["factuality"]
+                                for row in before_rows
+                            ) / len(before_rows),
+
+                            relevance=sum(
+                                row["relevance"]
+                                for row in before_rows
+                            ) / len(before_rows),
+
+                            format_compliance=sum(
+                                row["format_compliance"]
+                                for row in before_rows
+                            ) / len(before_rows),
+
+                            faithfulness=sum(
+                                row["faithfulness"]
+                                for row in before_rows
+                            ) / len(before_rows),
+
+                            overall_score=sum(
+                                row["overall_score"]
+                                for row in before_rows
+                            ) / len(before_rows),
+                        )
+
+                        after = SimpleNamespace(
+                            factuality=sum(
+                                row["factuality"]
+                                for row in after_rows
+                            ) / len(after_rows),
+
+                            relevance=sum(
+                                row["relevance"]
+                                for row in after_rows
+                            ) / len(after_rows),
+
+                            format_compliance=sum(
+                                row["format_compliance"]
+                                for row in after_rows
+                        ) / len(after_rows),
+
+                            faithfulness=sum(
+                                row["faithfulness"]
+                                for row in after_rows
+                            ) / len(after_rows),
+
+                            overall_score=sum(
+                                row["overall_score"]
+                                for row in after_rows
+                            ) / len(after_rows),
+                        )
+
+                        regression = detect_regression(
+                            before,
+                            after,
+                        )
+
+                        st.divider()
+
+                        if regression.regression_detected:
+
+                            st.error(
+                                "⚠️ Regression detected"
                             )
 
-                            with st.expander(
-                                f"{item.test_id} "
-                                f"• {change_pp:+.1f} pp"
-                            ):
+                        else:
 
-                                st.write(
-                                    f"**Baseline:** "
-                                    f"{item.overall_before * 100:.1f}%"
+                            st.success(
+                                "✅ No regression detected"
+                            )
+
+                        st.subheader("Score Comparison")
+
+                        col1, col2, col3 = st.columns(3)
+
+                        with col1:
+
+                            st.metric(
+                                "Baseline Overall",
+                                f"{regression.overall_before * 100:.2f}%",
+                            )
+
+                        with col2:
+
+                            st.metric(
+                                "New Overall",
+                                f"{regression.overall_after * 100:.2f}%",
+                            )
+
+                        with col3:
+
+                            st.metric(
+                                "Change",
+                                f"{regression.overall_change * 100:+.2f} pp",
+                            )
+
+                        st.divider()
+
+                        st.subheader("Metric Comparison")
+
+                        metric_table = []
+
+                        for change in regression.metric_changes:
+
+                            metric_table.append(
+                                {
+                                    "Metric": change.metric,
+                                    "Baseline": (
+                                        f"{change.before * 100:.1f}%"
+                                    ),
+                                    "New": (
+                                        f"{change.after * 100:.1f}%"
+                                    ),
+                                    "Change": (
+                                        f"{change.change * 100:+.1f} pp"
+                                    ),
+                                    "Regression": (
+                                        "Yes"
+                                        if change.change <= -0.10
+                                        else "No"
+                                    ),
+                                }
+                            )
+
+                        st.dataframe(
+                            metric_table,
+                            use_container_width=True,
+                            hide_index=True,
+                        )
+
+                        st.divider()
+
+                        st.subheader(
+                            "Per-Test Regression Analysis"
+                        )
+
+                        before_analysis = [
+                            SimpleNamespace(
+                                test_id=row["test_id"],
+                                overall_score=row["overall_score"],
+                                reason=row["reason"],
+                            )
+                            for row in before_rows
+                        ]
+
+                        after_analysis = [
+                            SimpleNamespace(
+                                test_id=row["test_id"],
+                                overall_score=row["overall_score"],
+                                reason=row["reason"],
+                            )
+                            for row in after_rows
+                        ]
+
+                        test_regressions = find_regressions(
+                            before_analysis,
+                            after_analysis,
+                        )
+
+                        if not test_regressions:
+
+                            st.success(
+                                "No individual test regressed "
+                                "by 5 percentage points or more."
+                            )
+
+                        else:
+
+                            st.warning(
+                                f"{len(test_regressions)} test(s) "
+                                "showed significant regression."
+                            )
+
+                            for item in test_regressions:
+                            
+                                change_pp = (
+                                    item.overall_change * 100
                                 )
 
-                                st.write(
-                                    f"**New:** "
-                                    f"{item.overall_after * 100:.1f}%"
-                                )
+                                with st.expander(
+                                    f"{item.test_id} "
+                                    f"• {change_pp:+.1f} pp"
+                                ):
 
-                                st.write(
-                                    "**Baseline reason:**"
-                                )
+                                    st.write(
+                                        f"**Baseline:** "
+                                        f"{item.overall_before * 100:.1f}%"
+                                    )
 
-                                st.write(
-                                    item.reason_before
-                                )
+                                    st.write(
+                                        f"**New:** "
+                                        f"{item.overall_after * 100:.1f}%"
+                                    )
 
-                                st.write(
-                                    "**New reason:**"
-                                )
+                                    st.write(
+                                        "**Baseline reason:**"
+                                    )
+    
+                                    st.write(
+                                        item.reason_before
+                                    )
 
-                                st.write(
-                                    item.reason_after
-                                )
+                                    st.write(
+                                        "**New reason:**"
+                                    )
+
+                                    st.write(
+                                        item.reason_after
+                                    )
