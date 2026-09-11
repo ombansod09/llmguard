@@ -74,7 +74,7 @@ llmguard/
 ├── prompts/         # Versioned prompts
 ├── regression/      # Regression detection and per-test analysis
 ├── storage/         # SQLite experiment persistence
-├── tests/            # Unit and local evaluation tests
+├── tests/           # Unit and local evaluation tests
 ├── app.py            # Streamlit application
 ├── requirements.txt
 └── README.md
@@ -116,7 +116,7 @@ Create `.env`:
 
 ```env
 OPENROUTER_API_KEY=your_openrouter_key
-LLM_MODEL=google/gemma-4-26b-a4b-it:free
+LLM_MODEL=openrouter/free
 ```
 
 Never commit `.env` or an API key.
@@ -135,7 +135,7 @@ Add these secrets in the deployment settings:
 
 ```toml
 OPENROUTER_API_KEY = "your_openrouter_key"
-LLM_MODEL = "google/gemma-4-26b-a4b-it:free"
+LLM_MODEL = "openrouter/free"
 ```
 
 The configuration layer reads normal environment variables locally and Streamlit secrets when deployed.
