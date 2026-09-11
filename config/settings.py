@@ -6,8 +6,24 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+def _get_config_value(name: str) -> str | None:
+    value = os.getenv(name)
+
+    if value:
+        return value
+
+    try:
+        import streamlit as st
+
+        value = st.secrets.get(name)
+    except Exception:
+        value = None
+
+    return value
+
+
 def get_api_key() -> str:
-    api_key = os.getenv("OPENROUTER_API_KEY")
+    api_key = _get_config_value("OPENROUTER_API_KEY")
 
     if not api_key:
         raise ValueError(
@@ -18,7 +34,7 @@ def get_api_key() -> str:
 
 
 def get_model() -> str:
-    model = os.getenv("LLM_MODEL")
+    model = _get_config_value("LLM_MODEL")
 
     if not model:
         raise ValueError(
